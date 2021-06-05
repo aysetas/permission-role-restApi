@@ -29,7 +29,6 @@ class CategoryController extends Controller
     public function store(CategoryStoreRequest $request)
     {
         $category=Category::create($request->validated());
-        $category->save();
         return response([
             'data' => $category,
             'message' => 'category created'

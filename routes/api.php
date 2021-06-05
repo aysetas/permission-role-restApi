@@ -35,6 +35,7 @@ Route::group([
     });
 
     Route::apiResource('product',ProductController::class);
+    Route::apiResource('product',ProductController::class);
     Route::apiResource('category',CategoryController::class);
 
 });

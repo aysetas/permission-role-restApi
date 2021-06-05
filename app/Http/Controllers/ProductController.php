@@ -17,7 +17,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return response(Product::paginate(10), 200);
+
+        return response(Product::with(['categories'=>function($q){
+            $q->select('name');
+    }])->paginate(10), 200);
     }
 
     /**
@@ -29,7 +32,10 @@ class ProductController extends Controller
     public function store(ProductStoreRequest $request)
     {
         $product = Product::create($request->validated());
-        $product->save();
+
+        $category=$request->input('categories');
+        $product->categories()->sync($category);
+
         return response([
             'data' => $product,
             'message' => 'product created'
@@ -45,7 +51,7 @@ class ProductController extends Controller
     public function show($id)
     {
         try {
-            $product = Product::findOrFail($id);
+            $product = Product::with('categories')->findOrFail($id);
             return response([
                 'data' => $product,
                 'message' => 'Product Found'
@@ -69,6 +75,9 @@ class ProductController extends Controller
         $product=Product::find($id);
         $product->update($request->validated());
 
+        $category=$request->input('categories');
+        $product->categories()->sync($category);
+
         return response([
             'data' => $product,
             'message' => 'product updated'
@@ -83,7 +92,7 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-       Product::destroy($id);
+        Product::destroy($id);
         return response([
             "message" =>"product deleted"
         ],200);
