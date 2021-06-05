@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryStoreRequest;
+use App\Http\Requests\CategoryUpdateRequest;
+use App\Models\Category;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -13,7 +17,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        return response(Category::paginate(5),200);
     }
 
     /**
@@ -22,9 +26,14 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryStoreRequest $request)
     {
-        //
+        $category=Category::create($request->validated());
+        $category->save();
+        return response([
+            'data' => $category,
+            'message' => 'category created'
+        ],201);
     }
 
     /**
@@ -35,7 +44,16 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $category = Category::findOrFail($id);
+            return response([
+                'data' => $category,
+                'message' => 'Category Found'
+            ],200);
+        }
+        catch(ModelNotFoundException $exception) {
+            return response(['message' => 'Category Not Found!'],404);
+        }
     }
 
     /**
@@ -45,9 +63,14 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CategoryUpdateRequest $request, $id)
     {
-        //
+        $category=Category::find($id);
+        $category->update($request->validated());
+        return response([
+            'data' => $category,
+            'message' => 'category updated'
+        ],200);
     }
 
     /**
@@ -58,6 +81,9 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Category::destroy($id);
+        return response([
+            "message" =>"category deleted"
+        ],200);
     }
 }

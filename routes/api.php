@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -34,5 +35,6 @@ Route::group([
     });
 
     Route::apiResource('product',ProductController::class);
+    Route::apiResource('category',CategoryController::class);
 
 });

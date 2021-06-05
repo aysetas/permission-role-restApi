@@ -33,7 +33,7 @@ class ProductController extends Controller
         return response([
             'data' => $product,
             'message' => 'product created'
-        ],200);
+        ],201);
     }
 
     /**
@@ -72,7 +72,7 @@ class ProductController extends Controller
         return response([
             'data' => $product,
             'message' => 'product updated'
-        ]);
+        ],200);
     }
 
     /**
@@ -86,6 +86,6 @@ class ProductController extends Controller
        Product::destroy($id);
         return response([
             "message" =>"product deleted"
-        ]);
+        ],200);
     }
 }
