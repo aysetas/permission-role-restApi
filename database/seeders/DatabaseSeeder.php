@@ -20,6 +20,6 @@ class DatabaseSeeder extends Seeder
         Product::factory(10)->create();
         Category::factory(10)->create();
         User::factory(2)->create();
-
+        $this->call(LaratrustSeeder::class);
     }
 }

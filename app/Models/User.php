@@ -8,9 +8,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Laratrust\Traits\LaratrustUserTrait;
 
 class User extends Authenticatable implements JWTSubject
 {
+    use LaratrustUserTrait;
     use HasFactory, Notifiable;
 
 
@@ -22,7 +24,8 @@ class User extends Authenticatable implements JWTSubject
     protected $fillable = [
         'name',
         'email',
-        'password',
+        'password'
+
     ];
     public function setPasswordAttribute($value)
     {
@@ -66,6 +69,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
 }
 
 

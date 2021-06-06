@@ -17,25 +17,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+
+
+Route::group(['prefix' => 'auth'], function(){
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
+    Route::post('me', [AuthController::class, 'me']);
 });
-
-Route::group([
-    'middleware' => 'api',
-], function () {
-
-    Route::group(['prefix' => 'auth'], function(){
-        Route::post('login', [AuthController::class, 'login']);
-        Route::post('register', [AuthController::class, 'register']);
-        Route::post('logout', [AuthController::class, 'logout']);
-        Route::post('refresh', [AuthController::class, 'refresh']);
-        Route::post('me', [AuthController::class, 'me']);
-
-    });
-
-    Route::apiResource('product',ProductController::class);
+Route::group(['middleware'=>['auth:api','role:admin']],function(){
     Route::apiResource('product',ProductController::class);
     Route::apiResource('category',CategoryController::class);
-
 });
