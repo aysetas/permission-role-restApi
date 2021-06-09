@@ -14,13 +14,15 @@ class ProductController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     *
+     *
      */
+
     public function index()
     {
-
         return response(Product::with(['categories'=>function($q){
             $q->select('name');
-    }])->paginate(10), 200);
+        }])->paginate(10), 200);
     }
 
     /**
@@ -31,8 +33,10 @@ class ProductController extends Controller
      */
     public function store(ProductStoreRequest $request)
     {
+        if(! auth('api')->user()->isAbleTo('product-create')){
+            abort(403, 'yetkiniz yok');
+        }
         $product = Product::create($request->validated());
-
         $category=$request->input('categories');
         $product->categories()->sync($category);
 
@@ -50,7 +54,11 @@ class ProductController extends Controller
      */
     public function show($id)
     {
+        if(! auth('api')->user()->isAbleTo('product-read')){
+            abort(403, 'yetkiniz yok');
+        }
         try {
+
             $product = Product::with('categories')->findOrFail($id);
             return response([
                 'data' => $product,
@@ -71,7 +79,9 @@ class ProductController extends Controller
      */
     public function update(ProductUpdateRequest $request, $id)
     {
-
+        if(! auth('api')->user()->isAbleTo('product-update')){
+            abort(403, 'yetkiniz yok');
+        }
         $product=Product::find($id);
         $product->update($request->validated());
 
@@ -92,6 +102,9 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
+        if(! auth('api')->user()->isAbleTo('product-delete')){
+            abort(403, 'yetkiniz yok');
+        }
         Product::destroy($id);
         return response([
             "message" =>"product deleted"

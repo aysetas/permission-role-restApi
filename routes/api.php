@@ -26,7 +26,7 @@ Route::group(['prefix' => 'auth'], function(){
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::post('me', [AuthController::class, 'me']);
 });
-Route::group(['middleware'=>['auth:api','role:admin']],function(){
+Route::group(['middleware'=>['auth:api']],function(){
     Route::apiResource('product',ProductController::class);
     Route::apiResource('category',CategoryController::class);
 });

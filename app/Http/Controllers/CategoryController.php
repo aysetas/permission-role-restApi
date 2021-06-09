@@ -28,6 +28,9 @@ class CategoryController extends Controller
      */
     public function store(CategoryStoreRequest $request)
     {
+        if(! auth('api')->user()->isAbleTo('category-create')){
+            abort(403, 'yetkiniz yok');
+        }
         $category=Category::create($request->validated());
         return response([
             'data' => $category,
@@ -43,6 +46,9 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
+        if(! auth('api')->user()->isAbleTo('category-read')){
+            abort(403, 'yetkiniz yok');
+        }
         try {
             $category = Category::findOrFail($id);
             return response([
@@ -64,6 +70,9 @@ class CategoryController extends Controller
      */
     public function update(CategoryUpdateRequest $request, $id)
     {
+        if(! auth('api')->user()->isAbleTo('category-update')){
+            abort(403, 'yetkiniz yok');
+        }
         $category=Category::find($id);
         $category->update($request->validated());
         return response([
@@ -80,6 +89,9 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
+        if(! auth('api')->user()->isAbleTo('category-delete')){
+            abort(403, 'yetkiniz yok');
+        }
         Category::destroy($id);
         return response([
             "message" =>"category deleted"

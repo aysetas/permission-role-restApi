@@ -13,23 +13,21 @@ return [
 
     'roles_structure' => [
         'admin' => [
-            'users' => 'c,r,u,d',
-            'payments' => 'c,r,u,d',
-            'profile' => 'r,u'
-        ],
-        'administrator' => [
-            'users' => 'c,r,u,d',
-            'profile' => 'r,u'
+            'product' => 'c,r,u,d',
+            'category' => 'c,r,u,d'
         ],
         'user' => [
-            'profile' => 'r,u',
+
         ],
-        'role_name' => [
-            'module_1_name' => 'c,r,u,d',
-        ]
+        'superadmin' => [
+            'product' => 'c,r',
+            'category' => 'c,r'
+        ],
+
     ],
 
     'permissions_map' => [
+
         'c' => 'create',
         'r' => 'read',
         'u' => 'update',
