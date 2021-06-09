@@ -19,10 +19,6 @@ return [
         'user' => [
 
         ],
-        'superadmin' => [
-            'product' => 'c,r',
-            'category' => 'c,r'
-        ],
 
     ],
 

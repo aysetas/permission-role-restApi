@@ -26,8 +26,7 @@ class AuthReqisterRequest extends FormRequest
         return [
             "name" => ["required", "max:50"],
             "email" => ["required", "email","unique:users"],
-            "password" => ["required", "min:6", "confirmed"],
-            "role" =>["required"]
+            "password" => ["required", "min:6", "confirmed"]
         ];
     }
 }

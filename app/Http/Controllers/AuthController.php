@@ -8,7 +8,6 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -17,6 +16,10 @@ class AuthController extends Controller
      *
      * @return void
      */
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+    }
 
     /**
      * Get a JWT via given credentials.
@@ -34,11 +37,7 @@ class AuthController extends Controller
     }
     public function register(AuthReqisterRequest $request)
     {
-       DB::transaction(function () use($request){
-           $user=User::create($request->except('role'));
-           $user->attachRole($request['role']);
-       });
-
+        User::create($request->validated());
         return $this->respondWithToken(auth()->attempt(request(['email', 'password'])));
     }
     /**
@@ -89,4 +88,3 @@ class AuthController extends Controller
         ]);
     }
 }
-

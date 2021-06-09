@@ -18,6 +18,7 @@ class ProductController extends Controller
      *
      */
 
+
     public function index()
     {
         return response(Product::with(['categories'=>function($q){
